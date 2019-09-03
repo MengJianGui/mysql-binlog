@@ -99,6 +99,7 @@ func main() {
 	// take the 1st offset
 	s, err := ss.NewSnapshot(*path, *clusterID, t)
 	if err != nil {
+		log.Errorf("func NewSnapshot error{%v}", err)
 		os.Exit(1)
 	}
 
@@ -111,24 +112,28 @@ func main() {
 
 	// copy
 	if err := s.CopyData(); err != nil {
+		log.Errorf("func CopyData from cfs error{%v}", err)
 		os.Exit(1)
 	}
 	log.Infof("snapshot copy ")
 
 	// copy conf
 	if err := s.CopyBin(); err != nil {
+		log.Errorf("func CopyBin error{%v}", err)
 		os.Exit(1)
 	}
 	log.Infof("copy conf")
 
 	// auth
 	if err := s.Auth(); err != nil {
+		log.Errorf("grant all auth to file to mysql error{%v}", err)
 		os.Exit(1)
 	}
 	log.Infof("auth file accessory")
 
 	// start MySQL
 	if err := s.StartMySQL(); err != nil {
+		log.Errorf("func StartMySQL error{%v}", err)
 		os.Exit(1)
 	}
 
